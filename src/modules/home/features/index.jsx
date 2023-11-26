@@ -5,33 +5,31 @@ import FilterBar from "../components/FilterBar";
 import ListView from "../components/ListView";
 import useFetchListItem from "../services/useFetchListItem";
 import { useCallback, useState } from "react";
-import { DUMMY_CAT_VALUE, initSearchValue } from "../../../constants/constant";
+import {
+  DUMMY_CAT_VALUE,
+  TIME_REFETCH,
+  initSearchValue,
+} from "../../../constants/constant";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 
 function HomePage() {
   const [payload, setPayload] = useState(initSearchValue);
-  console.log("🚀 ~ file: index.jsx:13 ~ HomePage ~ payload:", payload);
 
   const { data: listCat, isLoading } = useFetchListItem(payload, {
-    onSuccess: (rs) => {
-      console.log(rs);
-    },
+    refetchInterval: TIME_REFETCH, // refetch each 60s
   });
   const [form] = Form.useForm();
 
-  const listOptions = useCallback(
-    (field) => {
-      return intersection(
-        map(DUMMY_CAT_VALUE, (i) => {
-          return {
-            value: i[field],
-            label: i[field],
-          };
-        })
-      );
-    },
-    [listCat?.cats]
-  );
+  const listOptions = useCallback((field) => {
+    return intersection(
+      map(DUMMY_CAT_VALUE, (i) => {
+        return {
+          value: i[field],
+          label: i[field],
+        };
+      })
+    );
+  }, []);
 
   const handleSearch = useCallback(() => {
     const value = form.getFieldValue();

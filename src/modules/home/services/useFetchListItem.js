@@ -2,8 +2,9 @@ import { useQuery } from "react-query";
 import { DUMMY_CAT_VALUE, QUERY_KEY } from "../../../constants/constant";
 import { mockResApi } from "../../../hooks/useMockResApi";
 import { useMemo } from "react";
+import { shuffle } from "lodash";
 
-function useFetchListItem(params, options) {
+function useFetchListItem(params, options = {}) {
   const filteredCats = useMemo(() => {
     return DUMMY_CAT_VALUE.filter((cat) => {
       if (params.quickSearch) {
@@ -53,9 +54,10 @@ function useFetchListItem(params, options) {
     [...QUERY_KEY.listCat, params],
     async () => {
       const res = await mockResApi(filteredCats);
+      const shuffledCats = shuffle(res.data.slice(0, params.limit));
       return {
-        count: filteredCats?.length || 0,
-        cats: res.data.slice(0, params.limit),
+        count: shuffledCats?.length || 0,
+        cats: shuffledCats,
       };
     },
     {

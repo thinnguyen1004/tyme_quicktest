@@ -455,3 +455,5 @@ export const initSearchValue = {
   breed: "",
   color: "",
 };
+
+export const TIME_REFETCH = 60 * 1000;
