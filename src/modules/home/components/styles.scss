@@ -1,0 +1,18 @@
+.ant-typography{
+    color: #fff;
+}
+.ant-input::placeholder {
+    color: #fff;
+    opacity: 0.5;
+}
+
+.ant-input {
+    color:#fff
+}
+
+.ant-select-selector {
+    background: transparent !important;
+    .ant-select-selection-item {
+        color: #fff;
+    }
+}
